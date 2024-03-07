@@ -7,6 +7,7 @@ const pool  = mysql.createPool({
     database: 'mydb'
 });
 
+
 /**
  * Performs an SQL query.
  * @param {string} query The query to perform.
