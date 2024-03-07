@@ -2,9 +2,9 @@ const mysql = require('mysql');
 const pool  = mysql.createPool({
     connectionLimit : 10,
     host : 'localhost',
-    user: 'main',
-    password: 'secret',
-    database: 'mydb'
+    user: 'user',
+    password: 'password',
+    database: 'ISATest'
 });
 
 
@@ -13,30 +13,21 @@ const pool  = mysql.createPool({
  * @param {string} query The query to perform.
  */
 async function performQuery(query) {
-    const results = []; // Holds array of results.
+    let returnResults = []; // Holds array of returned results.
 
     if (!query) {
         throw new Error(`query is ${query}`);
     }
 
-    pool.query(
-    query,
+    await pool.query(
+        query,
         (error, results, fields) => {
             if (error) throw error;
-            return results;
+            console.log(results);
+            returnResults = results;
         }
     );
+    
+    return returnResults;
 }
-
-async function testDB() {
-
-    const results = await performQuery(
-        'SHOW TABLES;'
-    );
-
-    console.log(results);
-}
-
-
-testDB();
 
