@@ -5,10 +5,10 @@ body, html {
 }
 
 /* Define grid container */
-.container {
+#container {
     display: grid;
     grid-template-areas: 
-        "container"
+        "inputBox"
         "buttons";
     grid-template-columns: 100%;
     grid-template-rows: 50% 50%;
@@ -16,7 +16,8 @@ body, html {
 }
 
 /* Define grid items */
-.inputBox {
+#inputBox {
+    display: grid;
     grid-area: inputBox;
     grid-template-areas: 
     "insertButton postButton getButton";
@@ -28,19 +29,30 @@ body, html {
 
 }
 
-.insertButton {
+#textInput{
+    height: auto;
+    width: auto;
+}
+
+#buttons{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#insertButton {
     grid-area: buttons;
     background-color: #f0f0f0;
     padding: 30px;
 }
 
-.postButton {
+#postButton {
     grid-area: buttons;
     background-color: #f0f0f0;
     padding: 30px;
 }
 
-.getButton {
+#getButton {
     grid-area: buttons;
     background-color: #f0f0f0;
     padding: 30px;
