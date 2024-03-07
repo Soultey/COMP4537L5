@@ -1,0 +1,48 @@
+/* Reset default margin and padding */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+/* Define grid container */
+.container {
+    display: grid;
+    grid-template-areas: 
+        "container"
+        "buttons";
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
+    height: 100vh; /* Set container height to fill the viewport */
+}
+
+/* Define grid items */
+.inputBox {
+    grid-area: inputBox;
+    grid-template-areas: 
+    "insertButton postButton getButton";
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 100%;
+    height: auto; /* Set container height to fill the viewport */
+    background-color: #4caf89;
+    padding: 40px;
+
+}
+
+.insertButton {
+    grid-area: buttons;
+    background-color: #f0f0f0;
+    padding: 30px;
+}
+
+.postButton {
+    grid-area: buttons;
+    background-color: #f0f0f0;
+    padding: 30px;
+}
+
+.getButton {
+    grid-area: buttons;
+    background-color: #f0f0f0;
+    padding: 30px;
+}
+
