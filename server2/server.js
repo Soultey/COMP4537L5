@@ -6,9 +6,17 @@ const http = require('http')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const { handle404, getRequestBody, handle500 } = require('./modules/utils')
 
-const port = 3000;
+// Http helpers.
+const { handle404, getRequestBody, handle500 } 
+    = require('./modules/utils');
+
+// Endpoints from the config.
+const endpoints 
+    = require('./modules/endpoints.json');
+
+// Port from the config.
+const PORT = require('./modules/config.json');
 
 // Create the server.
 const server = http.createServer((req, res) => {
@@ -52,44 +60,6 @@ const server = http.createServer((req, res) => {
   }
 
 });
-
-/** Handles the definitions route.
- * 
- * @param {*} req 
- * @param {*} res 
- */
-async function handleDefinitionsRoute(req, res) {
-  // Parse the url and get the word.
-  const parsedUrl = url.parse(req.url, true);
-
-  // If GET, get the definition.
-  if (req.method === 'GET') {
-    serverDictionary.getEntry(
-      parsedUrl.query.word,
-      res
-    );
-  }
-
-  // If POST, post the definition.
-  else if (req.method === 'POST') {
-    await getRequestBody(req)
-      .then((body) => {
-        serverDictionary.addEntry(
-          body.word,
-          body.definition,
-          res);
-      })
-      .catch(() => {
-        handle500(req, res);
-        return;
-      });
-  }
-
-  // Else 404.
-  else {
-    handle404(req, res);
-  }
-}
 
 /**Serves a file to the connected user.
  *
