@@ -59,8 +59,44 @@ async function getRequestBody(req) {
   });
 }
 
+/**Serves a file to the connected user.
+ *
+ * @param {Response} res The server response.
+ * @param {string} relativePath The relative path.
+ * @param {string} contentType The type of content.
+ */
+function serveFile(res, relativePath, contentType) {
+  try {
+    // Join the file path.
+    const filePath = path.join(__dirname, relativePath)
+
+    // If the path does not exist, return an error.
+    if (!fs.existsSync(filePath)) {
+      // Handle file read error.
+      res.writeHead(400, { 'Content-Type': 'text/plain' })
+      res.end('Internal Server Error')
+    }
+
+    // Read the file.
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+      if (err) {
+        // Handle file read error.
+        res.writeHead(500, { 'Content-Type': 'text/plain' })
+        res.end('Internal Server Error')
+      } else {
+        // Serve the file content
+        res.writeHead(200, { 'Content-Type': contentType })
+        res.end(data)
+      }
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   handle404,
   handle500,
-  getRequestBody
+  getRequestBody,
+  serveFile
 }
