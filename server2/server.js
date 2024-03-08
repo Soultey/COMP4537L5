@@ -66,6 +66,30 @@ const server = http.createServer((req, res) => {
 
 });
 
+handlePostQuery(req, res) {
+    // Perform the query.
+    
+    // If query successful, return results.
+    
+    // If error, return an error.
+}
+
+handleGetQuery(req, res) {
+    // Perform the query.
+    
+    // If query successful, return results.
+    
+    // If error, return an error.
+}
+
+handlePostDefaultQuery(req, res) {
+    // Perform the query.
+    
+    // If query successful, return results.
+    
+    // If error, return an error.
+
+}
 
 // Start listening for connections.
 server.listen(config.port, () => {
