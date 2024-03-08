@@ -1,23 +1,27 @@
-// Get reference to the input field
-const inputField = document.getElementById('textInput');
+// Add event listeners to the buttons
+document.getElementById("postButton").addEventListener("click", sendPOSTRequest);
+document.getElementById("getButton").addEventListener("click", sendGETRequest);
 
-// Get reference to the buttons
-const insertButton = document.getElementById('insertButton');
-const postButton = document.getElementById('postButton');
-const getButton = document.getElementById('getButton');
+function sendPOSTRequest() {
+    var sqlQuery = document.getElementById("textInput").value.trim();
+    sendRequest("POST", sqlQuery);
+}
 
-// Add event listener to the POST button
-postButton.addEventListener('click', function() {
-    // Perform functionality for POST button
-    const inputValue = inputField.value;
-    // Perform action with the input value
-    console.log('POSTed value:', inputValue);
-});
+function sendGETRequest() {
+    var sqlQuery = document.getElementById("textInput").value.trim();
+    sendRequest("GET", sqlQuery);
+}
 
-// Add event listener to the GET button
-getButton.addEventListener('click', function() {
-    // Perform functionality for GET button
-    const inputValue = inputField.value;
-    // Perform action with the input value
-    console.log('GET value:', inputValue);
-});
+function sendRequest(method, sqlQuery) {
+    var xhr = new XMLHttpRequest();
+    var url = method === "POST" ? "http://Server2URL:port/insert" : "http://Server2URL:port/select"; // Adjust the URL accordingly
+    xhr.open(method, url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = xhr.responseText;
+            console.log(response); // For demonstration, you might display this in a more user-friendly way on the page
+        }
+    };
+    xhr.send(JSON.stringify({ sqlQuery: sqlQuery }));
+}
