@@ -1,0 +1,5 @@
+{
+    "postQuery": "/postQuery",
+    "getQuery": "/getQuery",
+    "postDefaultQuery": "/postDefaultQuery"
+}
