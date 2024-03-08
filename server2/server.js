@@ -20,7 +20,10 @@ const PORT = require('./modules/config.json');
 
 // Create the server.
 const server = http.createServer((req, res) => {
-  try {
+    let pathname;
+    let parsedUrl;
+    
+    try {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -33,28 +36,21 @@ const server = http.createServer((req, res) => {
     }
 
     // Parse the request URL
-    const parsedUrl = url.parse(req.url, true)
+    parsedUrl = url.parse(req.url, true)
 
     // Get the pathname from the URL
-    let pathname = parsedUrl.pathname
+    pathname = parsedUrl.pathname
 
     // Handle no path error.
     if (!pathname) {
-      res.writeHead(404, { 'Content-Type': 'text/plain' })
-      res.end('404 Not Found')
+      handle404(req, res);
       return
     }
 
-    // Handle request for definitions
-    else if (parsedUrl.pathname === '/labs/4/api/definitions/') {
-      handleDefinitionsRoute(req, res);
-    }
+    // Check routes.
 
-    // Handle path not found.
-    else {
-      handle404(req, res)
-    }
-  } catch (error) {
+
+ } catch (error) {
     console.error(error);
     handle500(req, res);
   }
@@ -96,6 +92,7 @@ function serveFile(res, relativePath, contentType) {
   }
 }
 
-server.listen(port, () => {
+// Start listening for connections.
+server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${port}`)
 });
