@@ -6,14 +6,6 @@ const insertButton = document.getElementById('insertButton');
 const postButton = document.getElementById('postButton');
 const getButton = document.getElementById('getButton');
 
-// Add event listener to the insert button
-insertButton.addEventListener('click', function() {
-    // Perform functionality for insert button
-    const inputValue = inputField.value;
-    // Perform action with the input value
-    console.log('Inserted value:', inputValue);
-});
-
 // Add event listener to the POST button
 postButton.addEventListener('click', function() {
     // Perform functionality for POST button
