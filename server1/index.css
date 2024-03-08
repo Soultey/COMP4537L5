@@ -23,14 +23,12 @@ body, html {
     align-items: center;
     justify-content: center;
     grid-area: projectHeading;
-    background-color: #78af4c;
 
 }
 
 #inputBox {
     display: flex;
     height: auto; /* Set container height to fill the viewport */
-    background-color: #4caf89;
     padding: 40px;
 }
 
@@ -44,7 +42,6 @@ body, html {
     display:flex;
     flex-direction: row;
     justify-content: space-evenly;
-    background-color: #4ca3af;
 
 }   
 
