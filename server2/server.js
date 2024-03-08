@@ -41,6 +41,18 @@ const server = http.createServer((req, res) => {
 
     // Handle routes.
     switch(pathname) {
+        case endpoints.postQuery: {
+            handlePostQuery(req, res);
+            break;
+        }
+        case endpoints.getQuery: {
+            handleGetQuery(req, res);
+            break;
+        }
+        case endpoints.postDefaultQuery: {
+            handlePostDefaultQuery(req, res);
+            break;
+        }
         default: {
             utils.handle404(req, res);
             return;
