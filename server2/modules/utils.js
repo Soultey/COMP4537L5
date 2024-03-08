@@ -1,4 +1,6 @@
 const http = require('http');
+const path = require('path');
+const fs = require('fs');
 
 /** Handles a 404 file not found error.
  *
@@ -6,8 +8,9 @@ const http = require('http');
  * @param {http.ServerResponse<IncomingMessage>} res The http response.
  */
 function handle404(req, res) {
-  res.writeHead(404, { 'Content-Type': 'text/plain' })
-  res.end('404 Not Found')
+  //res.writeHead(404, { 'Content-Type': 'text/plain' })
+  //res.end('404 Not Found');
+  serveFile(res, './404.html', 'text/html');
 }
 
 /** Handles a 500 internal server error.
@@ -94,9 +97,28 @@ function serveFile(res, relativePath, contentType) {
   }
 }
 
+/** Sets the CORS headers.
+ * @param {http.Response} res the http response.
+ */
+function setCORSHeaders(res) {
+    res.setHeader(
+        'Access-Control-Allow-Origin',
+        '*'
+    );
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET, POST, OPTIONS'
+    );
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Content-Type, Authorization'
+    );
+}
+
 module.exports = {
   handle404,
   handle500,
   getRequestBody,
-  serveFile
+  serveFile,
+  setCORSHeaders
 }
