@@ -1,4 +1,4 @@
-/** Holds handlers for the routes.
+/* Holds handlers for the routes.
  *
  * @author Ethan Diosana
  */

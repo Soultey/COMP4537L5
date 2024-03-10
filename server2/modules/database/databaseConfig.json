@@ -1,7 +1,7 @@
 {
     "connectionLimit": 10,
     "host": "localhost",
-    "user": "user",
-    "password": "password",
-    "database": "ISATest"
+    "user": "lab5user",
+    "password": "lab5user",
+    "database": "lab5"
 }
