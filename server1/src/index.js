@@ -29,7 +29,7 @@ function sendRequest(method, sqlQuery) {
     var xhr = new XMLHttpRequest();
 
     // Define the URL based on the method (POST or GET)
-    var url = method === "POST" ? "http://Server2URL:port/insert" : "http://Server2URL:port/select"; // Adjust the URL accordingly
+    var url = method === "POST" ? "https://comp4537.alterbotcreations.com/labs/5/api/sql" : "https://comp4537.alterbotcreations.com/labs/5/api/sql"; // Use the provided URL for both POST and GET requests
 
     // Open the request with the specified method, URL, and asynchronous flag
     xhr.open(method, url, true);

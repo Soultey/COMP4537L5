@@ -6,7 +6,7 @@ const http = require('http')
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
-const { handle404 } = require('/modules/utils')
+const { handle404 } = require('./modules/utils')
 const port = 4537;
 
 // Create the server.
@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
         else if (pathname === '/src/index') {
             serveFile(
                 res,
-                '/src/index.html',
+                './src/index.html',
                 'text/html'
             );
         }
@@ -72,29 +72,26 @@ function serveFile(res, relativePath, contentType) {
         // Join the file path.
         const filePath = path.join(__dirname, relativePath)
 
-        // If the path does not exist, return an error.
-        if (!fs.existsSync(filePath)) {
-            // Handle file read error.
-            res.writeHead(400, { 'Content-Type': 'text/plain' })
-            res.end('Internal Server Error')
-        }
-
         // Read the file.
         fs.readFile(filePath, 'utf-8', (err, data) => {
             if (err) {
                 // Handle file read error.
                 res.writeHead(500, { 'Content-Type': 'text/plain' })
                 res.end('Internal Server Error')
-            } else {
-                // Serve the file content
-                res.writeHead(200, { 'Content-Type': contentType })
-                res.end(data)
+                return; // Exit the function to avoid sending another response
             }
+
+            // Serve the file content
+            res.writeHead(200, { 'Content-Type': contentType })
+            res.end(data)
         });
     } catch (error) {
         console.error(error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' })
+        res.end('Internal Server Error')
     }
 }
+
 
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
