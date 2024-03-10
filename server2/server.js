@@ -49,7 +49,7 @@ const server = http.createServer((req, res) => {
             break;
         }
         case endpoints.getQuery: {
-            sqlRoutes.andleGetQuery(req, res);
+            sqlRoutes.handleGetQuery(req, res);
             break;
         }
 //        case endpoints.postDefaultQuery: {

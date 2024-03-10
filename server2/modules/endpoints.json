@@ -1,5 +1,3 @@
 {
-    "postQuery": "/postQuery",
-    "getQuery": "/getQuery",
-    "postDefaultQuery": "/postDefaultQuery"
+    "sqlQuery": "/labs/5/api/sql"
 }
