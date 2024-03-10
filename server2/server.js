@@ -11,14 +11,15 @@ const fs = require('fs')
 const utils = require('./modules/utils.js');
 
 // Endpoints from the config.
-const endpoints 
-    = require('./modules/endpoints.json');
+const endpoints =
+    require('./modules/endpoints.json');
 
 // Port from the config.
 const config = require('./modules/config.json');
 
 // Route handlers.
-const queryRoutes = require('./modules/routes/sqlRoutes.js');
+const sqlRoutes =
+    require('./modules/sqlRoutes.js');
 
 // Create the server.
 const server = http.createServer((req, res) => {
@@ -44,18 +45,17 @@ const server = http.createServer((req, res) => {
 
     // Handle routes.
     switch(pathname) {
-        case endpoints.postQuery: {
-            sqlRoutes.handlePostQuery(req, res);
+        case endpoints.sqlQuery: {
+            if(req.method === "GET") {
+                sqlRoutes.handleGetQuery(req, res);
+            }
+            else if(req.method === "POST") {
+                sqlRoutes.handlePostQuery(req, res);
+            } else {
+                utils.handle404(req, res);
+            }
             break;
         }
-        case endpoints.getQuery: {
-            sqlRoutes.handleGetQuery(req, res);
-            break;
-        }
-//        case endpoints.postDefaultQuery: {
-//            handlePostDefaultQuery(req, res);
-//            break;
-//       }
         default: {
             utils.handle404(req, res);
             return;
@@ -66,7 +66,6 @@ const server = http.createServer((req, res) => {
     console.error(error);
     utils.handle500(req, res);
   }
-
 });
 
 // Start listening for connections.

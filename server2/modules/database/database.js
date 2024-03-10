@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const databaseConfig = require('./databaseConfig.json');
 
 const pool  = mysql.createPool(databaseConfig);
@@ -28,6 +28,6 @@ async function performQuery(query) {
 }
 
 module.exports = {
-    performQuery
+    pool
 }
 
