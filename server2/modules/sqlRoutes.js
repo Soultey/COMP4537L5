@@ -12,51 +12,58 @@ const db = require('./database/database.js');
  */
 async function handleGetQuery(req, res)
 {
-    let results; // The results of the query.
-    let body; // The body of the request.
-    let query; // The query to run.
+    try {
+    
+        let results; // The results of the query.
+        let body; // The body of the request.
+        let query; // The query to run.
 
-    // Get the query from the request.
-    query = req;
+        // Get the query from the request.
+        query = req;
 
-    query = `SELECT * FROM patients;`; 
+        query = `SELECT * FROM patients;`; 
 
-    // Perform the query.
-    db.pool
-        .promise()
-        .query(query)
-        .then(
-         // If query, successful, return results.
-        (resolve) => {
-            console.log(resolve);
-            res.setHeader( 
-                'Content-Type',
-                'application/json'
-            );
+        // Perform the query.
+        db.pool
+            .promise()
+            .query(query)
+            .then(
+            // If query, successful, return results.
+            (resolve) => {
+                res.setHeader( 
+                    'Content-Type',
+                    'application/json'
+                );
 
-            results = {
-                'queryReturn': resolve[0]
-            }
+                results = {
+                    'queryReturn': resolve[0]
+                }
 
-            res.end(JSON.stringify(results));
-        },
+                res.end(JSON.stringify(results));
+            },
 
-        (reject) => {
-            console.log(reject);
+            (reject) => {
+                res.writeHead(501, {'Content-Type': 'text/plain'});
+                res.end(
+                `internal server error\n${reject}`
+                );
+            },
+        )
+
+        // If error, return an error.
+        .catch(error => {
             res.writeHead(501, {'Content-Type': 'text/plain'});
             res.end(
-               `internal server error\n${reject}`
+                `internal server error\n${error}`
             );
-        },
-    )
+        });
 
-    // If error, return an error.
-    .catch(error => {
+    } catch(error) {
         res.writeHead(501, {'Content-Type': 'text/plain'});
         res.end(
             `internal server error\n${error}`
         );
-    });
+    }
 }
 
 /** Handles SQL POST queries.
