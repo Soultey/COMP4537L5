@@ -82,6 +82,9 @@ async function handlePostQuery(req, res)
             parsedBody = JSON.parse(body);
         });
 
+        console.log(body);
+        console.log(parsedBody);
+
         query = parsedBody.sqlQuery;
  
         // Perform the query.
