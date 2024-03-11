@@ -70,8 +70,6 @@ function sendRequest(method, sqlQuery) {
     
     };
 
-    console.log("Request Body:", JSON.stringify({ sqlQuery: sqlQuery }));
-
     // For GET requests, send null instead of JSON data
     xhr.send(method === "GET" ? null : JSON.stringify({ sqlQuery: sqlQuery }));
 }
