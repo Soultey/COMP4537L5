@@ -47,13 +47,11 @@ async function handleGetQuery(req, res)
 
         // If error, return an error.
         .catch(error => {
-            res.writeHead(501, {'Content-Type': 'text/plain'});
-            res.end(
-                `internal server error\n${error}`
-            );
+                handleDBError(res, error);
         });
 
     } catch(error) {
+        console.log(error);
         res.writeHead(501, {'Content-Type': 'text/plain'});
         res.end(
             `internal server error\n${error}`
@@ -109,6 +107,7 @@ async function handlePostQuery(req, res)
              });
                   
     } catch(error) {
+        console.log(error);
         res.writeHead(501, {'Content-Type': 'text/plain'});
         res.end(
             `internal server error\n${error}`
@@ -121,6 +120,7 @@ async function handlePostQuery(req, res)
  * @param {string} errorMsg the error message
  */
 function handleDBError(res, errorMsg) {
+    console.log(error);
     res.writeHead(400, {'Content-Type': 'text/plain'});
     res.end(`request failed\n${errorMsg}`);
 }
