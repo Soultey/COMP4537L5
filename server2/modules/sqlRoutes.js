@@ -22,7 +22,7 @@ async function handleGetQuery(req, res)
         // Get the query from the request.
         parsedUrl = new URL(req.url, 
             `http://${req.headers.host}`);
-        query = parsedUrl.serachParams.get('sqlQuery');
+        query = parsedUrl.searchParams.get('sqlQuery');
 
         // Perform the query.
         db.pool
