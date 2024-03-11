@@ -78,38 +78,24 @@ async function handlePostQuery(req, res)
         });
 
         // When complete, use the received data.
-        req.on('end', () => {
-            parsedBody = JSON.parse(body);
-        });
+        req.on('end', async () => {
+            try {
+                const parsedBody = JSON.parse(body);
+                const query = parsedBody.sqlQuery;
 
-        console.log("body: " + body);
-        console.log("parsedBody: " + parsedBody);
+                console.log("body: " + body);
+                console.log("parsedBody: ", parsedBody);
 
-        query = parsedBody.sqlQuery;
- 
-        // Perform the query.
-        db.pool
-            .promise(query)
-            .then(
-                (resolve) => {
-                 res.setHeader( 
-                    'Content-Type',
-                    'application/json'
-                );
-
-                results = {
-                    'queryReturn': resolve[0]
-                }
-
-                res.end(JSON.stringify(results));
-                },
-
-                (reject) => {handleDBError(res, reject);},
-            )
-            .catch(error => {
-                handleDBError(res, error);
-             });
-                  
+                // Perform the query.
+                const [results] = await db.pool.promise().query(query);
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ 'queryReturn': results }));
+            } catch (error) {
+                console.error(error);
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Bad request, could not parse JSON.' }));
+            }
+        });                  
     } catch(error) {
         console.log(error);
         res.writeHead(501, {'Content-Type': 'text/plain'});
