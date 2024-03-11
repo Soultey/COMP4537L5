@@ -25,17 +25,24 @@ function sendGETRequest() {
 // Function to send HTTP request
 function sendRequest(method, sqlQuery) {
 
-    // Create a new XMLHttpRequest object
-    var xhr = new XMLHttpRequest();
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
 
-    // Define the URL based on the method (POST or GET)
-    var url = method === "POST" ? "https://comp4537.alterbotcreations.com/labs/5/api/sql" : "https://comp4537.alterbotcreations.com/labs/5/api/sql"; // Use the provided URL for both POST and GET requests
+        // Define the base URL
+        var baseUrl = "https://comp4537.alterbotcreations.com/labs/5/api/sql";
+    
+        // For GET requests, append the sqlQuery as a query parameter in the URL
+        var url = method === "GET" ? baseUrl + "?sqlQuery=" + encodeURIComponent(sqlQuery) : baseUrl;
+    
+        // Open the request with the specified method and URL (notice the URL changes for GET requests)
+        xhr.open(method, url, true);
 
-    // Open the request with the specified method, URL, and asynchronous flag
-    xhr.open(method, url, true);
+    // For POST requests, set the Content-Type header to specify JSON data
+    if (method === "POST") {
+        xhr.setRequestHeader("Content-Type", "application/json");
 
-    // Set the Content-Type header to specify JSON data
-    xhr.setRequestHeader("Content-Type", "application/json");
+    }
+
 
     // Define a callback function to handle the response
     xhr.onreadystatechange = function () {
@@ -60,7 +67,11 @@ function sendRequest(method, sqlQuery) {
             // Append the paragraph to the <div>
             theBox.appendChild(paragraph);
         }
+    
     };
-    // Send the request with the SQL query as JSON data
-    xhr.send(JSON.stringify({ sqlQuery: sqlQuery }));
+
+    console.log("Request Body:", JSON.stringify({ sqlQuery: sqlQuery }));
+
+    // For GET requests, send null instead of JSON data
+    xhr.send(method === "GET" ? null : JSON.stringify({ sqlQuery: sqlQuery }));
 }
