@@ -42,12 +42,7 @@ async function handleGetQuery(req, res)
                 res.end(JSON.stringify(results));
             },
 
-            (reject) => {
-                res.writeHead(501, {'Content-Type': 'text/plain'});
-                res.end(
-                `internal server error\n${reject}`
-                );
-            },
+            (reject) => {handleDBError(res, reject);},
         )
 
         // If error, return an error.
@@ -73,11 +68,49 @@ async function handleGetQuery(req, res)
  */
 async function handlePostQuery(req, res)
 {
-    // Perform the query.
-    
-    // If query, successful, return results.
-    
-    // If error, return an error.
+    try {
+        let query;
+        let parsedBody;
+        let body = '';
+
+        // Get the query from the request.
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        // When complete, use the received data.
+        req.on('end', () => {
+            parsedBody = JSON.parse(body);
+        });
+
+        query = parsedBody.sqlQuery;
+ 
+        // Perform the query.
+        db.pool
+            .promise(query)
+            .then(
+                (resolve) => {},
+                (reject) => {},
+            )
+            .catch(error => {
+                handleDBError(res, error);
+             });
+                  
+    } catch(error) {
+        res.writeHead(501, {'Content-Type': 'text/plain'});
+        res.end(
+            `internal server error\n${error}`
+        );
+    }
+}
+
+/** Handles database errors.
+ * @param {http.Response} res the http response
+ * @param {string} errorMsg the error message
+ */
+function handleDBError(res, errorMsg) {
+    res.writeHead(400, {'Content-Type': 'text/plain'});
+    res.end(`request failed\n${errorMsg}`);
 }
 
 module.exports = {
