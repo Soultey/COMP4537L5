@@ -3,6 +3,7 @@
  * @author Ethan Diosana
  */
 
+const url = require('url');
 const db = require('./database/database.js');
 
 /** Handles SQL GET queries.
@@ -15,13 +16,13 @@ async function handleGetQuery(req, res)
     try {
     
         let results; // The results of the query.
-        let body; // The body of the request.
+        let parsedUrl; // The parsed url.
         let query; // The query to run.
 
         // Get the query from the request.
-        query = req;
-
-        query = `SELECT * FROM patients;`; 
+        parsedUrl = new URL(req.url, 
+            `http://${req.headers.host}`);
+        query = parsedUrl.serachParams.get('sqlQuery');
 
         // Perform the query.
         db.pool
