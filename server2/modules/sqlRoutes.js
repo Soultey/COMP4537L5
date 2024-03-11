@@ -89,8 +89,20 @@ async function handlePostQuery(req, res)
         db.pool
             .promise(query)
             .then(
-                (resolve) => {},
-                (reject) => {},
+                (resolve) => {
+                 res.setHeader( 
+                    'Content-Type',
+                    'application/json'
+                );
+
+                results = {
+                    'queryReturn': resolve[0]
+                }
+
+                res.end(JSON.stringify(results));
+                },
+
+                (reject) => {handleDBError(res, reject);},
             )
             .catch(error => {
                 handleDBError(res, error);
