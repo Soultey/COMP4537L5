@@ -79,7 +79,14 @@ async function handlePostQuery(req, res)
 
         // When complete, use the received data.
         req.on('end', () => {
-            parsedBody = JSON.parse(body);
+            try {
+                 parsedBody = JSON.parse(body);
+            } catch (e) {
+                console.error('Error parsing JSON:', e);
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Bad JSON' }));
+            return;
+            }
         });
 
         console.log("body: " + body);
