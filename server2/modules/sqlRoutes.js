@@ -110,7 +110,7 @@ async function handlePostQuery(req, res)
  * @param {string} errorMsg the error message
  */
 function handleDBError(res, errorMsg) {
-    console.log(error);
+    console.log(errorMsg);    
     res.writeHead(400, {'Content-Type': 'text/plain'});
     res.end(`request failed\n${errorMsg}`);
 }
